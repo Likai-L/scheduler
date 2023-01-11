@@ -12,9 +12,9 @@ function InterviewerList(props) {
         name={interviewer.name}
         avatar={interviewer.avatar}
         setInterviewer={() => {
-          props.setInterviewer(interviewer.id);
+          props.onChange(interviewer.id);
         }}
-        selected={props.interviewer === interviewer.id}
+        selected={interviewer.id === props.value}
       />
     );
   });
