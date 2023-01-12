@@ -8,7 +8,7 @@ import Appointment from "./Appointment";
 
 import axios from "axios";
 
-import { getAppointmentsForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
 const { useState, useEffect } = React;
 
@@ -27,6 +27,19 @@ export default function Application(props) {
   const requestDays = axios.get(`${baseUrl}/days`);
   const requestAppointments = axios.get(`${baseUrl}/appointments`);
   const requestInterviewers = axios.get(`${baseUrl}/interviewers`);
+  const schedule = Object.values(getAppointmentsForDay(state, state.day)).map(
+    (appointment) => {
+      const interviewInfo = getInterview(state, appointment.interview);
+      const { interview, ...others } = appointment;
+      return (
+        <Appointment
+          key={appointment.id}
+          interview={interviewInfo}
+          {...others}
+        />
+      );
+    }
+  );
 
   const promises = [requestDays, requestAppointments, requestInterviewers];
 
@@ -37,7 +50,7 @@ export default function Application(props) {
         ...prev,
         days: responses[0].data,
         appointments: responses[1].data,
-        requestInterviewers: responses[2].data,
+        interviewers: responses[2].data,
       }));
     });
   }, []);
@@ -61,11 +74,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {Object.values(getAppointmentsForDay(state, state.day)).map(
-          (appointment) => {
-            return <Appointment key={appointment.id} {...appointment} />;
-          }
-        )}
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
