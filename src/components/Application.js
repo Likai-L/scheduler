@@ -17,6 +17,7 @@ export default function Application(props) {
     days: [],
     appointments: {},
     day: "Monday",
+    interviewers: {},
   });
 
   const setDay = (day) => {
@@ -25,15 +26,18 @@ export default function Application(props) {
   const baseUrl = "/api";
   const requestDays = axios.get(`${baseUrl}/days`);
   const requestAppointments = axios.get(`${baseUrl}/appointments`);
+  const requestInterviewers = axios.get(`${baseUrl}/interviewers`);
 
-  const promises = [requestDays, requestAppointments];
+  const promises = [requestDays, requestAppointments, requestInterviewers];
 
   useEffect(() => {
     Promise.all(promises).then((responses) => {
+      console.log(responses[2].data);
       setState((prev) => ({
         ...prev,
         days: responses[0].data,
         appointments: responses[1].data,
+        requestInterviewers: responses[2].data,
       }));
     });
   }, []);
