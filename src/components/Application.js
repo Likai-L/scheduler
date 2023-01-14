@@ -8,7 +8,11 @@ import Appointment from "./Appointment";
 
 import axios from "axios";
 
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import {
+  getAppointmentsForDay,
+  getInterview,
+  getInterviewersForDay,
+} from "helpers/selectors";
 
 const { useState, useEffect } = React;
 
@@ -27,6 +31,7 @@ export default function Application(props) {
   const requestDays = axios.get(`${baseUrl}/days`);
   const requestAppointments = axios.get(`${baseUrl}/appointments`);
   const requestInterviewers = axios.get(`${baseUrl}/interviewers`);
+  const interviewers = getInterviewersForDay(state, state.day);
   const schedule = Object.values(getAppointmentsForDay(state, state.day)).map(
     (appointment) => {
       const interviewInfo = getInterview(state, appointment.interview);
@@ -35,6 +40,7 @@ export default function Application(props) {
         <Appointment
           key={appointment.id}
           interview={interviewInfo}
+          interviewers={interviewers}
           {...others}
         />
       );
