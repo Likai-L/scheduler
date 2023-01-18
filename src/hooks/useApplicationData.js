@@ -32,16 +32,18 @@ export default function useApplicationData() {
     setState({ ...state, day: day });
   };
 
-  const updateSpots = () => {
-    const newDays = state.days.map((day) => {
-      const appointmentsData = getAppointmentsForDay(state, day.name);
+  const updateSpots = (prev) => {
+    const newDays = prev.days.map((day) => {
+      const appointmentsData = getAppointmentsForDay(prev, day.name);
       const spots = appointmentsData.filter(
-        (appointment) => appointment.interview
+        (appointment) => appointment.interview === null
       ).length;
       return { ...day, spots };
     });
-    setState({ ...state, days: newDays });
+    console.log(newDays);
+    return { ...prev, days: newDays, overwriting: 1 };
   };
+
   const bookInterview = (id, interview) => {
     const appointment = {
       ...state.appointments[id],
@@ -50,22 +52,31 @@ export default function useApplicationData() {
     const appointments = { ...state.appointments, [id]: appointment };
 
     return axios.put(`/api/appointments/${id}`, appointment).then(() => {
-      setState({ ...state, appointments });
-      updateSpots();
+      setState((prev) => ({ ...prev, appointments, overwriting: 0 }));
+      setState((prev) => {
+        console.log(updateSpots(prev).days);
+        return updateSpots(prev);
+      });
     });
   };
 
   const cancelInterview = (id) => {
     return axios.delete(`/api/appointments/${id}`).then(() => {
-      setState({
-        ...state,
-        appointments: {
-          ...state.appointments,
-          [id]: { ...state.appointments[id], interview: null },
-        },
+      setState((prev) => {
+        return {
+          ...prev,
+          appointments: {
+            ...prev.appointments,
+            [id]: { ...prev.appointments[id], interview: null },
+          },
+        };
       });
-      updateSpots();
+      setState((prev) => {
+        console.log(prev.appointments);
+        return updateSpots(prev);
+      });
     });
   };
+
   return { state, setDay, bookInterview, cancelInterview };
 }
