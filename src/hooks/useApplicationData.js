@@ -10,15 +10,14 @@ export default function useApplicationData() {
     interviewers: {},
   });
 
-  const requestDays = axios.get(`api/days`);
-  const requestAppointments = axios.get(`api/appointments`);
-  const requestInterviewers = axios.get(`api/interviewers`);
+  const requestDays = axios.get(`/api/days`);
+  const requestAppointments = axios.get(`/api/appointments`);
+  const requestInterviewers = axios.get(`/api/interviewers`);
 
   const promises = [requestDays, requestAppointments, requestInterviewers];
 
   useEffect(() => {
     Promise.all(promises).then((responses) => {
-      console.log(responses[2].data);
       setState((prev) => ({
         ...prev,
         days: responses[0].data,
