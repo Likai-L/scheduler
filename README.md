@@ -2,7 +2,7 @@
 
 !["logo"](https://github.com/Likai-L/scheduler/blob/master/docs/logo.png?raw=true)
 
-Interviewer Scheduler is a React single-page app that provides a convenient interface for users to view, book, edit and cancel interviews. Data is communicated to a Postgre databse through an API server. Forms are validated prior to submission and error messages are shown should there be server-side errors. Unit, integration and end-to-end tests are performed throughout the development.
+Interviewer Scheduler is a React single-page app that provides a convenient interface for users to view, book, edit and cancel interviews. Data is communicated to a PostgreSQL database through an API server. Forms are validated prior to submission and error messages are shown should there be server-side errors. Unit, integration and end-to-end tests are performed throughout the development.
 
 # Getting Started
 
