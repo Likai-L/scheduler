@@ -69,7 +69,6 @@ export default function useApplicationData() {
         };
       });
       setState((prev) => {
-        console.log(prev.appointments);
         return updateSpots(prev);
       });
     });
