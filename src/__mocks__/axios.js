@@ -81,4 +81,11 @@ export default {
       statusText: "Not Found",
     });
   }),
+  put: jest.fn(() => {
+    return Promise.resolve({ status: 204, statusText: "No Content" });
+  }),
+
+  delete: jest.fn(() => {
+    return Promise.resolve({ status: 204, statusText: "No Content" });
+  }),
 };
