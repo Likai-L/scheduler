@@ -39,7 +39,6 @@ export default function useApplicationData() {
       ).length;
       return { ...day, spots };
     });
-    console.log(newDays);
     return { ...prev, days: newDays, overwriting: 1 };
   };
 
@@ -53,7 +52,6 @@ export default function useApplicationData() {
     return axios.put(`/api/appointments/${id}`, appointment).then(() => {
       setState((prev) => ({ ...prev, appointments, overwriting: 0 }));
       setState((prev) => {
-        console.log(updateSpots(prev).days);
         return updateSpots(prev);
       });
     });
