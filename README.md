@@ -36,6 +36,14 @@ npm install
 npm start
 ```
 
+## Running the [database API server](https://github.com/lighthouse-labs/scheduler-api)
+
+Clone and set up the API server following its README, from the API server folder, run:
+
+```sh
+npm start
+```
+
 ## Visiting in the browser
 
 ```sh
