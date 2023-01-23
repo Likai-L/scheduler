@@ -25,7 +25,7 @@ export default function useApplicationData() {
         interviewers: responses[2].data,
       }));
     });
-  }, []);
+  }, [promises]);
 
   const setDay = (day) => {
     setState({ ...state, day: day });
